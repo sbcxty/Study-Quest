@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyQuest - AI-Powered Study Planner</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="schedule.css" />
+  </head>
+  <body>
+    <!-- Authentication Screen -->
+    <div class="container auth-container" id="auth-container">
+      <div class="bow bow-1"></div>
+      <div class="bow bow-2"></div>
+
+      <div class="auth-form">
+        <div class="tabs">
+          <div class="tab active" data-tab="login">Login</div>
+          <div class="tab" data-tab="signup">Sign Up</div>
+        </div>
+
+        <div class="tab-content active" id="login-tab">
+          <h2>Welcome Back!</h2>
+          <p class="wizard-description">
+            Sign in to continue your StudyQuest journey
+          </p>
+
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input
+              type="email"
+              id="login-email"
+              placeholder="your.email@example.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input
+              type="password"
+              id="login-password"
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <button id="login-btn"><i class="fas fa-heart"></i> Login</button>
+        </div>
+
+        <div class="tab-content" id="signup-tab">
+          <h2>Join StudyQuest</h2>
+          <p class="wizard-description">
+            Create your account to start organizing your studies
+          </p>
+
+          <div class="form-group">
+            <label for="signup-name">Full Name</label>
+            <input type="text" id="signup-name" placeholder="Your full name" />
+          </div>
+
+          <div class="form-group">
+            <label for="signup-email">Email</label>
+            <input
+              type="email"
+              id="signup-email"
+              placeholder="your.email@example.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="signup-password">Password</label>
+            <input
+              type="password"
+              id="signup-password"
+              placeholder="Create a secure password"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="signup-confirm">Confirm Password</label>
+            <input
+              type="password"
+              id="signup-confirm"
+              placeholder="Confirm your password"
+            />
+          </div>
+
+          <button id="signup-btn">
+            <i class="fas fa-heart"></i> Create Account
+          </button>
+        </div>
+      </div>
+
+      <div class="auth-info">
+        <h1>StudyQuest <i class="fas fa-heart heart"></i></h1>
+        <p>
+          Your AI-powered study companion that adapts to your schedule and
+          learning needs.
+        </p>
+        <ul style="margin-top: 1.5rem">
+          <li style="margin-bottom: 1rem; display: flex; align-items: center">
+            <i class="fas fa-heart heart"></i> Personalized study plans
+          </li>
+          <li style="margin-bottom: 1rem; display: flex; align-items: center">
+            <i class="fas fa-heart heart"></i> AI-powered scheduling
+          </li>
+          <li style="margin-bottom: 1rem; display: flex; align-items: center">
+            <i class="fas fa-heart heart"></i> Progress tracking
+          </li>
+          <li style="margin-bottom: 1rem; display: flex; align-items: center">
+            <i class="fas fa-heart heart"></i> Material organization
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Setup Wizard -->
+    <div class="setup-wizard" id="setup-wizard">
+      <div class="wizard-step active" id="step-1">
+        <div class="wizard-header">
+          <h2 class="wizard-title">
+            <i class="fas fa-calendar-alt"></i> Your Study Profile
+          </h2>
+          <p class="wizard-description">
+            Let's set up your personalized study plan with all your classes,
+            subjects, and preferences
+          </p>
+        </div>
+
+        <div class="combined-setup">
+          <div class="setup-section">
+            <h3 class="setup-section-title">
+              <i class="fas fa-book"></i> Classes & Subjects
+            </h3>
+
+            <div class="form-group">
+              <label>Your Classes</label>
+              <div id="class-entries">
+                <div class="class-entry">
+                  <input
+                    type="text"
+                    placeholder="Subject name"
+                    class="subject-name"
+                  />
+                  <select class="subject-day">
+                    <option value="">Day</option>
+                    <option value="monday">Monday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                  </select>
+                  <input
+                    type="text"
+                    placeholder="Time (e.g., 9:00 AM)"
+                    class="subject-time"
+                  />
+                  <select class="subject-type">
+                    <option value="lecture">Lecture</option>
+                    <option value="lab">Lab</option>
+                    <option value="tutorial">Tutorial</option>
+                  </select>
+                  <button
+                    class="remove-btn"
+                    onclick="this.parentElement.remove()"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+
+              <button class="btn-secondary" id="add-class-btn">
+                <i class="fas fa-plus"></i> Add Class
+              </button>
+            </div>
+
+            <div class="form-group">
+              <label>Your Subjects</label>
+              <div id="subject-entries">
+                <div class="class-entry">
+                  <input
+                    type="text"
+                    placeholder="Course name"
+                    class="course-name"
+                  />
+                  <select class="course-difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="hard">Hard</option>
+                  </select>
+                  <input
+                    type="text"
+                    placeholder="Target grade"
+                    class="course-grade"
+                  />
+                  <select class="course-priority">
+                    <option value="low">Low Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="high">High Priority</option>
+                  </select>
+                  <button
+                    class="remove-btn"
+                    onclick="this.parentElement.remove()"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+
+              <button class="btn-secondary" id="add-subject-btn">
+                <i class="fas fa-plus"></i> Add Subject
+              </button>
+            </div>
+          </div>
+
+          <div class="setup-section">
+            <h3 class="setup-section-title">
+              <i class="fas fa-clipboard-list"></i> Exams & Study Preferences
+            </h3>
+
+            <div class="form-group">
+              <label>Upcoming Exams</label>
+              <div id="exam-entries">
+                <div class="class-entry">
+                  <input
+                    type="text"
+                    placeholder="Subject"
+                    class="exam-subject"
+                  />
+                  <input type="date" class="exam-date" />
+                  <input
+                    type="text"
+                    placeholder="Time (e.g., 10:00 AM)"
+                    class="exam-time"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Coverage"
+                    class="exam-coverage"
+                  />
+                  <button
+                    class="remove-btn"
+                    onclick="this.parentElement.remove()"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+
+              <button class="btn-secondary" id="add-exam-btn">
+                <i class="fas fa-plus"></i> Add Exam
+              </button>
+            </div>
+
+            <div class="form-group">
+              <label>Study Intensity</label>
+              <input
+                type="range"
+                min="1"
+                max="5"
+                value="3"
+                class="intensity-slider"
+                id="intensity-slider"
+              />
+              <div class="slider-labels">
+                <span>Relaxed</span>
+                <span>Balanced</span>
+                <span>Intensive</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="max-session">Max Study Time Per Session</label>
+              <select id="max-session">
+                <option value="1">1 hour</option>
+                <option value="1.5">1.5 hours</option>
+                <option value="2" selected>2 hours</option>
+                <option value="2.5">2.5 hours</option>
+                <option value="3">3 hours</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="break-time">Break Time</label>
+              <select id="break-time">
+                <option value="10">10 minutes</option>
+                <option value="15" selected>15 minutes</option>
+                <option value="20">20 minutes</option>
+                <option value="30">30 minutes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-nav">
+          <div></div>
+          <button id="step-1-next">
+            Generate My Plan <i class="fas fa-magic"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+      <div class="sidebar">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          <span class="nav-text">StudyQuest</span>
+        </div>
+
+        <div class="nav-item active" data-section="today">
+          <i class="fas fa-home"></i>
+          <span class="nav-text">Today's Missions</span>
+        </div>
+        <div class="nav-item" data-section="schedule">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="nav-text">Weekly Schedule</span>
+        </div>
+        <div class="nav-item" data-section="materials">
+          <i class="fas fa-folder"></i>
+          <span class="nav-text">Study Materials</span>
+        </div>
+        <div class="nav-item" data-section="subjects">
+          <i class="fas fa-book"></i> <span class="nav-text">My Subjects</span>
+        </div>
+        <div class="nav-item" data-section="exams">
+          <i class="fas fa-clipboard-list"></i>
+          <span class="nav-text">Exams & Quizzes</span>
+        </div>
+        <div class="nav-item" data-section="settings">
+          <i class="fas fa-cog"></i> <span class="nav-text">Settings</span>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <!-- Today's Missions Section -->
+        <div class="content-section active" id="today-section">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">
+                Today's Missions
+                <span class="ai-indicator"
+                  ><i class="fas fa-robot"></i> AI Optimized</span
+                >
+              </h2>
+              <span id="current-date"></span>
+            </div>
+
+            <div id="today-missions">
+              <!-- Missions will be populated by JavaScript -->
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Upcoming Deadlines</h2>
+            </div>
+
+            <div id="upcoming-deadlines">
+              <!-- Upcoming deadlines will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Weekly Schedule Section -->
+        <div class="content-section" id="schedule-section">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">
+                Weekly Study Schedule
+                <span class="ai-indicator"
+                  ><i class="fas fa-robot"></i> AI Optimized</span
+                >
+              </h2>
+            </div>
+
+            <div id="weekly-schedule">
+              <!-- Schedule will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Study Materials Section -->
+        <div class="content-section" id="materials-section">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Study Materials</h2>
+              <button class="btn-secondary" id="add-folder-btn">
+                <i class="fas fa-plus"></i> New Folder
+              </button>
+            </div>
+
+            <div class="folder-grid" id="materials-grid">
+              <!-- Folders will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- My Subjects Section -->
+        <div class="content-section" id="subjects-section">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">My Subjects</h2>
+              <button class="btn-secondary" id="add-subject-dash-btn">
+                <i class="fas fa-plus"></i> Add Subject
+              </button>
+            </div>
+
+            <div id="subjects-list">
+              <!-- Subjects will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Exams & Quizzes Section -->
+        <div class="content-section" id="exams-section">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Exams & Quizzes</h2>
+              <button class="btn-secondary" id="add-exam-dash-btn">
+                <i class="fas fa-plus"></i> Add Exam
+              </button>
+            </div>
+
+            <div id="exams-list">
+              <!-- Exams will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="content-section" id="settings-section">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Settings</h2>
+            </div>
+
+            <div class="form-group">
+              <label for="study-intensity">Study Intensity</label>
+              <input
+                type="range"
+                min="1"
+                max="5"
+                value="3"
+                class="intensity-slider"
+                id="study-intensity"
+              />
+              <div class="slider-labels">
+                <span>Relaxed</span>
+                <span>Balanced</span>
+                <span>Intensive</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="max-study-session"
+                >Maximum Study Time Per Session</label
+              >
+              <select id="max-study-session">
+                <option value="1">1 hour</option>
+                <option value="1.5">1.5 hours</option>
+                <option value="2" selected>2 hours</option>
+                <option value="2.5">2.5 hours</option>
+                <option value="3">3 hours</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="desired-break">Desired Break Time</label>
+              <select id="desired-break">
+                <option value="10">10 minutes</option>
+                <option value="15" selected>15 minutes</option>
+                <option value="20">20 minutes</option>
+                <option value="30">30 minutes</option>
+              </select>
+            </div>
+
+            <button id="update-settings">
+              <i class="fas fa-heart"></i> Update Settings
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Materials Modal -->
+    <div id="materials-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="folder-title">Folder Name</h3>
+          <span class="close" id="close-modal">&times;</span>
+        </div>
+
+        <div class="file-upload-area" id="file-upload-area">
+          <i
+            class="fas fa-cloud-upload-alt"
+            style="
+              font-size: 3rem;
+              color: var(--warm-mauve);
+              margin-bottom: 1rem;
+            "
+          ></i>
+          <p>Drag and drop files here or click to browse</p>
+          <input type="file" id="file-input" multiple style="display: none" />
+        </div>
+
+        <div class="file-list" id="file-list">
+          <!-- Uploaded files will appear here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Folder Modal -->
+    <div id="add-folder-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Create New Folder</h3>
+          <span class="close" id="close-folder-modal">&times;</span>
+        </div>
+
+        <div class="form-group">
+          <label for="new-folder-name">Folder Name</label>
+          <input
+            type="text"
+            id="new-folder-name"
+            placeholder="Enter folder name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="new-folder-subject">Subject</label>
+          <select id="new-folder-subject">
+            <option value="">Select a subject</option>
+          </select>
+        </div>
+
+        <button id="create-folder-btn">
+          <i class="fas fa-plus"></i> Create Folder
+        </button>
+      </div>
+    </div>
+
+    <!-- Add Subject Modal -->
+    <div id="add-subject-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Add New Subject</h3>
+          <span class="close" id="close-subject-modal">&times;</span>
+        </div>
+
+        <div class="form-group">
+          <label for="new-subject-name">Subject Name</label>
+          <input
+            type="text"
+            id="new-subject-name"
+            placeholder="e.g., Mathematics"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="new-subject-difficulty">Difficulty</label>
+          <select id="new-subject-difficulty">
+            <option value="easy">Easy</option>
+            <option value="moderate">Moderate</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="new-subject-grade">Target Grade</label>
+          <input
+            type="text"
+            id="new-subject-grade"
+            placeholder="e.g., A or 90%"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="new-subject-priority">Priority</label>
+          <select id="new-subject-priority">
+            <option value="low">Low Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="high">High Priority</option>
+          </select>
+        </div>
+
+        <button id="create-subject-btn">
+          <i class="fas fa-plus"></i> Add Subject
+        </button>
+      </div>
+    </div>
+
+    <!-- Add Exam Modal -->
+    <div id="add-exam-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Add New Exam</h3>
+          <span class="close" id="close-exam-modal">&times;</span>
+        </div>
+
+        <div class="form-group">
+          <label for="new-exam-subject">Subject</label>
+          <select id="new-exam-subject">
+            <option value="">Select a subject</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="new-exam-date">Date</label>
+          <input type="date" id="new-exam-date" />
+        </div>
+
+        <div class="form-group">
+          <label for="new-exam-time">Time</label>
+          <input type="time" id="new-exam-time" />
+        </div>
+
+        <div class="form-group">
+          <label for="new-exam-coverage">Coverage</label>
+          <input
+            type="text"
+            id="new-exam-coverage"
+            placeholder="e.g., Chapters 1-5"
+          />
+        </div>
+
+        <button id="create-exam-btn">
+          <i class="fas fa-plus"></i> Add Exam
+        </button>
+      </div>
+    </div>
+
+    <script src="schedule.js"></script>
+  </body>
+</html>
